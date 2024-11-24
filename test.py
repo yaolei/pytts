@@ -1,4 +1,8 @@
+import dotenv
+import os
+dotenv.load_dotenv()
 def test_py():
-    print("Testing the python sercives work")
+    api_key = os.getenv('DATABASE_URL')
+    print(api_key)
 
 test_py()
