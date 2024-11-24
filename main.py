@@ -2,7 +2,6 @@ from typing import Union
 import edge_tts
 from fastapi import FastAPI
 from pydantic import BaseModel
-
 from connectDb import session, get_db
 from db.testDb import MP3File
 import datetime
@@ -38,6 +37,10 @@ class TestItems(BaseModel):
 async def read_root():
     v  = judge_language("So what do you think")
     return {"Hello": v}
+
+@app.get("/pytts")
+async def read_root():
+    return "Hello backend server is start"
 
 @app.get("/items/{item_id}")
 async def read_item(item_id: int, q: Union[str, None] = None):
