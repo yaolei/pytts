@@ -41,6 +41,9 @@ async def read_root():
 @app.get("/pytts")
 async def read_root():
     return "Hello backend server is start"
+@app.get("/pytts/test")
+async def read_root():
+    return "Hello backend server child router is work"
 
 @app.get("/items/{item_id}")
 async def read_item(item_id: int, q: Union[str, None] = None):
