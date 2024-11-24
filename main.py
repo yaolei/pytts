@@ -55,7 +55,7 @@ async def handle_test_api(items:TestItems):
     print("Received data@@@@:", items.dict())
     return {"data": {"id": items.id, "content": items.content}}
 
-@app.post("/tts")
+@app.post("/pytts/tts")
 async def tts(itmes:Items):
     v  = judge_language(itmes.message_connent)
     if v == "EN":
