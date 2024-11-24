@@ -64,24 +64,25 @@ async def tts(itmes:Items):
          VOICE = "zh-CN-XiaoxiaoNeural"
     communicate = edge_tts.Communicate(itmes.message_connent, VOICE)
     OUTPUT_FILE = itmes.send_by_name + itmes.message_id + ".mp3"
-    
+    external_directory = "/Users/evan/pro/flexux/public"
+    os.makedirs(external_directory, exist_ok=True)
     if os.path.exists(OUTPUT_FILE):
         os.remove(OUTPUT_FILE)
-    with open(OUTPUT_FILE, "wb") as file:
+    output_file = os.path.join(external_directory, OUTPUT_FILE)
+    print(output_file)
+    with open(output_file, "wb") as file:
             async for chunk in communicate.stream():
                 if chunk["type"] == "audio":
-                    file.write(chunk["data"])
+                     file.write(chunk["data"])
                 elif chunk["type"] == "WordBoundary":
                     print("translated audio successfully.")
                     # print(f"WordBoundary: {chunk}")
-                data = await StoreAudio(OUTPUT_FILE, itmes.message_id, itmes.send_by_name)
-    if data is not None:
-        if os.path.exists(OUTPUT_FILE):
-            os.remove(OUTPUT_FILE)                   
-    return data
-
+                # data = await StoreAudio(OUTPUT_FILE, itmes.message_id, itmes.send_by_name)
+    # if data is not None:
+    #     if os.path.exists(OUTPUT_FILE):
+    #         os.remove(OUTPUT_FILE)                   
+    return {'state':'ok'}
 async def validateVoideExite (userId:str):
-    # query = session.query(MP3File).filter(MP3File.send_user_id == userId).one()
     result = session.execute(select(MP3File.id).where(MP3File.send_user_id == userId))
     data = result.fetchone()
     if data is not None:
